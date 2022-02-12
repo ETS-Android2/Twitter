@@ -39,7 +39,7 @@ public class  TwitterClient extends OAuthBaseClient {
 				REST_CONSUMER_KEY,
 				REST_CONSUMER_SECRET,
 				null,  // OAuth2 scope, null for OAuth1
-				String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host),
+				String.format(REST_CALLBACK_URL_TEMPLATE, "cprest",
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
 	}
 	// CHANGE THIS
@@ -59,7 +59,15 @@ public class  TwitterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
 		params.put("max_id", maxId);
-		client.get(apiUrl, params, handler);
+		client.post(apiUrl, String.valueOf(params), handler);
+	}
+
+	public void publishTweets (String tweetContent, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/update.json"); // need to insert the correct path here instead of flicker, go back to the video with API keys creation
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("status", tweetContent);
+		client.post(apiUrl, params,"",handler);
 	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
