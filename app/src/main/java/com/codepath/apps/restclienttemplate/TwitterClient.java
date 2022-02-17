@@ -19,7 +19,7 @@ import com.github.scribejava.core.builder.api.BaseApi;
  * Add methods for each relevant endpoint in the API.
  * 
  * NOTE: You may want to rename this object based on the service i.e TwitterClient or FlickrClient
- * 
+ *
  */
 public class  TwitterClient extends OAuthBaseClient {
 	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance();
@@ -51,6 +51,14 @@ public class  TwitterClient extends OAuthBaseClient {
 		params.put("count", 25);
 		params.put("since_id", 1);
 		client.get(apiUrl, params, handler);
+	}
+
+	public void publishTweet (String tweeetContent, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/update.json"); // need to insert the correct path here instead of flicker, go back to the video with API keys creation
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("status", tweeetContent);
+		client.post(apiUrl, params, "",handler);
 	}
 
 	public void getNextPageOfTweets (JsonHttpResponseHandler handler, long maxId) {
